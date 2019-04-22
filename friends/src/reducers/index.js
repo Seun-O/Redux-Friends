@@ -3,11 +3,15 @@ import {
   LOGIN_RESOLVED,
   FETCH_DATA_START,
   FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAIL
+  FETCH_DATA_FAIL,
+  FAILED,
+  SUCCESS,
+  ADD
 } from "../actions";
 
 const initialState = {
   error: "",
+  status: "",
   errorStatusCode: null,
   fetchingData: false,
   friends: [],
@@ -19,12 +23,13 @@ const reducer = (state = initialState, action) => {
     case LOGIN_START:
       return {
         ...state,
-        fetchingData: true
+        isLoggingIn: true
       };
     case LOGIN_RESOLVED:
       return {
         ...state,
-        isLoggingIn: false
+        isLoggingIn: false,
+        status: ""
       };
     case FETCH_DATA_START:
       return {
@@ -44,6 +49,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         error: action.payload,
         fetchingData: false
+      };
+    case SUCCESS:
+      return {
+        ...state,
+        status: "success",
+        isLoggingIn: true
+      };
+    case FAILED:
+      return {
+        ...state,
+        status: "error",
+        isLoggingIn: true
+      };
+    case ADD:
+      return {
+        ...state,
+        friends: action.payload
       };
     default:
       return state;
